@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "name": "Relentless physical crits cut the owned Aortic Assault rank's cooldown (#694, #9472)",
+  "contract": "Relentless 704652 is SPELL_AURA_PROC_TRIGGER_SPELL on Relentless 807357 for physical critical strikes, and its tooltip promises that each such crit reduces the cooldown of Aortic Assault by $/1000;807358s1 sec. That reduction is Relentless 807358, a single SPELL_EFFECT_ASCENSION_MODIFY_COOLDOWN with BasePoints -1001 whose MiscValue 806212 is rank 1 of the Aortic Assault chain (spell_ranks 806212..807785). A level-55 Bloodmage casts rank 5, 807783, so the cooldown the player sees and the one Spell::CheckCast enforces is 807783's. Every rank shares Category 53 with RecoveryTime and CategoryRecoveryTime 20000, so a control Bloodmage without Relentless who casts the same rank immediately afterwards carries a cooldown at least as long; the Relentless Bloodmage's 807783 cooldown can only fall below the control's through the proc. Crit Test Buff 503747 (aura 290, +100 percentage points) makes every strike crit: Aortic Assault's own periodic Physical strikes 806502 and Bloodfang Bite 572551 (SchoolMask 1, DmgClass 2) are both physical. The control proves crits alone move nothing.",
+  "timeout_ms": 90000,
+  "players": [
+    {
+      "id": "bloodmage",
+      "race": 1,
+      "class": 20,
+      "level": 55,
+      "spell_hit_rating": 10000,
+      "melee_hit_rating": 10000,
+      "expertise_rating": 10000
+    },
+    {
+      "id": "control",
+      "race": 1,
+      "class": 20,
+      "level": 55,
+      "spell_hit_rating": 10000,
+      "melee_hit_rating": 10000,
+      "expertise_rating": 10000
+    }
+  ],
+  "creatures": [
+    {
+      "id": "dummy",
+      "owner": "bloodmage",
+      "entry": 36,
+      "health": 1000000,
+      "distance": 3
+    },
+    {
+      "id": "control_dummy",
+      "owner": "control",
+      "entry": 36,
+      "health": 1000000,
+      "distance": 3
+    }
+  ],
+  "steps": [
+    {
+      "action": "wait",
+      "label": "Let spawn AI and level scaling settle",
+      "ms": 5000
+    },
+    {
+      "action": "learn",
+      "actor": "bloodmage",
+      "spell": 807783
+    },
+    {
+      "action": "learn",
+      "actor": "bloodmage",
+      "spell": 572551
+    },
+    {
+      "action": "learn",
+      "actor": "bloodmage",
+      "spell": 704652
+    },
+    {
+      "action": "learn",
+      "actor": "control",
+      "spell": 807783
+    },
+    {
+      "action": "learn",
+      "actor": "control",
+      "spell": 572551
+    },
+    {
+      "action": "assert",
+      "label": "The control has no Relentless",
+      "actor": "control",
+      "metric": "knows_spell",
+      "spell": 704652,
+      "equals": 0
+    },
+    {
+      "action": "set_power",
+      "actor": "bloodmage",
+      "power": 1,
+      "value": 1000
+    },
+    {
+      "action": "set_power",
+      "actor": "control",
+      "power": 1,
+      "value": 1000
+    },
+    {
+      "action": "set_aura",
+      "actor": "bloodmage",
+      "spell": 800157,
+      "stacks": 1,
+      "label": "Eternal Curse 800157: the Cursed Form Bloodfang Bite's CasterAuraSpell 525031 needs"
+    },
+    {
+      "action": "set_aura",
+      "actor": "control",
+      "spell": 800157,
+      "stacks": 1
+    },
+    {
+      "action": "set_aura",
+      "actor": "bloodmage",
+      "spell": 503747,
+      "stacks": 1,
+      "label": "Crit Test Buff 503747 (aura 290 MOD_CRIT_PCT +100) forces every strike to crit"
+    },
+    {
+      "action": "set_aura",
+      "actor": "control",
+      "spell": 503747,
+      "stacks": 1
+    },
+    {
+      "action": "cast",
+      "actor": "bloodmage",
+      "spell": 807783,
+      "target": "dummy"
+    },
+    {
+      "action": "cast",
+      "label": "The control's cooldown starts no earlier than the Relentless Bloodmage's",
+      "actor": "control",
+      "spell": 807783,
+      "target": "control_dummy"
+    },
+    {
+      "action": "assert",
+      "label": "Aortic Assault rank 5 is on cooldown for the Relentless Bloodmage",
+      "actor": "bloodmage",
+      "metric": "cooldown_ms",
+      "spell": 807783,
+      "min": 10000,
+      "within_ms": 3000
+    },
+    {
+      "action": "assert",
+      "label": "Aortic Assault rank 5 is on cooldown for the control",
+      "actor": "control",
+      "metric": "cooldown_ms",
+      "spell": 807783,
+      "min": 10000,
+      "within_ms": 3000
+    },
+    {
+      "action": "wait",
+      "label": "Let the three-second channel and its critical strikes finish",
+      "ms": 3500
+    },
+    {
+      "action": "cast",
+      "actor": "bloodmage",
+      "spell": 572551,
+      "target": "dummy"
+    },
+    {
+      "action": "cast",
+      "actor": "control",
+      "spell": 572551,
+      "target": "control_dummy"
+    },
+    {
+      "action": "assert",
+      "label": "DISCRIMINATING: the critical strike grants Relentless",
+      "actor": "bloodmage",
+      "metric": "aura",
+      "spell": 807357,
+      "equals": 1,
+      "within_ms": 3000
+    },
+    {
+      "action": "assert",
+      "label": "The control's critical strikes grant no Relentless",
+      "actor": "control",
+      "metric": "aura",
+      "spell": 807357,
+      "equals": 0
+    },
+    {
+      "action": "snapshot",
+      "label": "The control's remaining Aortic Assault cooldown",
+      "actor": "control",
+      "metric": "cooldown_ms",
+      "spell": 807783,
+      "save_as": "control_cooldown"
+    },
+    {
+      "action": "assert",
+      "label": "DISCRIMINATING: Relentless crits took at least a second off the owned rank's cooldown",
+      "actor": "bloodmage",
+      "metric": "cooldown_ms",
+      "spell": 807783,
+      "relative_to": "control_cooldown",
+      "max": -900
+    }
+  ]
+}
