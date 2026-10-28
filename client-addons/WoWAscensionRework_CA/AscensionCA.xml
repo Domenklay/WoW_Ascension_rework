@@ -1,0 +1,37 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="AscensionCA.lua"/>
+  <Frame name="WoWAscensionReworkCAFrame" parent="UIParent" hidden="true" movable="true" enableMouse="true" toplevel="true" frameStrata="DIALOG">
+    <Size x="1165" y="758"/>
+    <Anchors><Anchor point="CENTER"/></Anchors>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture name="$parentBackground" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true"><Anchors><Anchor point="TOPLEFT" x="10" y="-28"/><Anchor point="BOTTOMRIGHT" x="-10" y="10"/></Anchors></Texture>
+        <Texture name="$parentTitleBG" file="Interface\DialogFrame\UI-DialogBox-Header"><Size x="420" y="64"/><Anchors><Anchor point="TOP" y="12"/></Anchors></Texture>
+      </Layer>
+      <Layer level="BORDER">
+        <Texture name="$parentTopLeft" file="Interface\DialogFrame\UI-DialogBox-Corner"><Size x="32" y="32"/><Anchors><Anchor point="TOPLEFT"/></Anchors></Texture>
+        <Texture name="$parentTopRight" file="Interface\DialogFrame\UI-DialogBox-Corner"><Size x="32" y="32"/><Anchors><Anchor point="TOPRIGHT"/></Anchors><TexCoords left="1" right="0" top="0" bottom="1"/></Texture>
+        <Texture name="$parentBottomLeft" file="Interface\DialogFrame\UI-DialogBox-Corner"><Size x="32" y="32"/><Anchors><Anchor point="BOTTOMLEFT"/></Anchors><TexCoords left="0" right="1" top="1" bottom="0"/></Texture>
+        <Texture name="$parentBottomRight" file="Interface\DialogFrame\UI-DialogBox-Corner"><Size x="32" y="32"/><Anchors><Anchor point="BOTTOMRIGHT"/></Anchors><TexCoords left="1" right="0" top="1" bottom="0"/></Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString name="$parentTitle" inherits="GameFontNormalLarge" text="Character Advancement"><Anchors><Anchor point="TOP" y="-14"/></Anchors></FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <Button name="$parentClose" inherits="UIPanelCloseButton"><Anchors><Anchor point="TOPRIGHT" x="-4" y="-4"/></Anchors></Button>
+      <Frame name="$parentLeft"><Size x="132" y="675"/><Anchors><Anchor point="TOPLEFT" x="14" y="-62"/></Anchors><Layers><Layer level="BACKGROUND"><Texture file="Interface\AchievementFrame\UI-Achievement-Parchment-Horizontal"><Anchors><Anchor point="TOPLEFT"/><Anchor point="BOTTOMRIGHT"/></Anchors><TexCoords left="0" right="1" top="0" bottom="1"/></Texture></Layer></Layers></Frame>
+      <Frame name="$parentCenter"><Size x="800" y="620"/><Anchors><Anchor point="TOPLEFT" x="150" y="-94"/></Anchors><Layers><Layer level="BACKGROUND"><Texture file="Interface\AchievementFrame\UI-Achievement-Parchment"><Anchors><Anchor point="TOPLEFT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture></Layer></Layers></Frame>
+      <Frame name="$parentRight"><Size x="196" y="675"/><Anchors><Anchor point="TOPRIGHT" x="-14" y="-62"/></Anchors><Layers><Layer level="BACKGROUND"><Texture file="Interface\AchievementFrame\UI-Achievement-Parchment-Horizontal"><Anchors><Anchor point="TOPLEFT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture></Layer></Layers></Frame>
+      <EditBox name="$parentSearch" autoFocus="false" inherits="InputBoxTemplate"><Size x="310" y="24"/><Anchors><Anchor point="TOPLEFT" relativeTo="$parentCenter" x="12" y="32"/></Anchors><Scripts><OnEnterPressed>self:ClearFocus(); WoWAscensionReworkCA_Search(self:GetText())</OnEnterPressed><OnTextChanged>WoWAscensionReworkCA_Search(self:GetText())</OnTextChanged></Scripts></EditBox>
+      <Button name="$parentAbilitiesTab" inherits="UIPanelButtonTemplate" text="Abilities"><Size x="118" y="26"/><Anchors><Anchor point="TOPLEFT" relativeTo="$parentCenter" x="340" y="34"/></Anchors><Scripts><OnClick>WoWAscensionReworkCA_SetMode("Abilities")</OnClick></Scripts></Button>
+      <Button name="$parentTalentsTab" inherits="UIPanelButtonTemplate" text="Talents"><Size x="118" y="26"/><Anchors><Anchor point="LEFT" relativeTo="$parentAbilitiesTab" relativePoint="RIGHT" x="4"/></Anchors><Scripts><OnClick>WoWAscensionReworkCA_SetMode("Talents")</OnClick></Scripts></Button>
+      <Button name="$parentMasteryTab" inherits="UIPanelButtonTemplate" text="Mastery"><Size x="118" y="26"/><Anchors><Anchor point="LEFT" relativeTo="$parentTalentsTab" relativePoint="RIGHT" x="4"/></Anchors><Scripts><OnClick>WoWAscensionReworkCA_SetMode("Mastery")</OnClick></Scripts></Button>
+      <Button name="$parentReset" inherits="UIPanelButtonTemplate" text="Reset Build"><Size x="160" y="24"/><Anchors><Anchor point="BOTTOM" x="0" y="18"/></Anchors><Scripts><OnClick>WoWAscensionReworkCA_Reset()</OnClick></Scripts></Button>
+      <Button name="$parentSave" inherits="UIPanelButtonTemplate" text="Save Changes"><Size x="160" y="28"/><Anchors><Anchor point="BOTTOM" relativeTo="$parentReset" relativePoint="TOP" x="0" y="4"/></Anchors><Scripts><OnClick>WoWAscensionReworkCA_Save()</OnClick></Scripts></Button>
+      <Frame name="$parentEssence"><Size x="355" y="28"/><Anchors><Anchor point="BOTTOMLEFT" x="154" y="15"/></Anchors><Layers><Layer level="OVERLAY"><FontString name="$parentAE" inherits="GameFontNormal"/><FontString name="$parentTE" inherits="GameFontNormal"/></Layer></Layers></Frame>
+      <Frame name="$parentRarity"><Size x="355" y="28"/><Anchors><Anchor point="BOTTOMRIGHT" x="-18" y="15"/></Anchors><Layers><Layer level="OVERLAY"><FontString name="$parentText" inherits="GameFontNormalSmall"/></Layer></Layers></Frame>
+    </Frames>
+    <Scripts><OnLoad>WoWAscensionReworkCA_OnLoad(self)</OnLoad><OnShow>WoWAscensionReworkCA_OnShow(self)</OnShow><OnMouseDown>if arg1 == "LeftButton" then self:StartMoving() end</OnMouseDown><OnMouseUp>self:StopMovingOrSizing()</OnMouseUp></Scripts>
+  </Frame>
+</Ui>
