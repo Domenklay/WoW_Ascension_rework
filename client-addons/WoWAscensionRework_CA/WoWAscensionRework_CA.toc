@@ -1,10 +1,10 @@
 ## Interface: 30300
-## Title: WoW Ascension Rework - Character Advancement
-## Notes: Character Advancement UI prototype for WoW_Ascension_rework
+## Title: Forever.Ascension CA Test
+## Notes: Character Advancement test UI built from recovered Ascension data
 ## Author: WoW_Ascension_rework
-## Version: 0.1.0
+## Version: 1.0.1
 ## SavedVariables: WoWAscensionReworkCA_DB
 
 AscensionCA_Data.lua
-AscensionCA.xml
 AscensionCA.lua
+AscensionCA_Bootstrap.lua
