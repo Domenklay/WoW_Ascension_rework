@@ -1,0 +1,10 @@
+## Interface: 30300
+## Title: WoW Ascension Rework - Character Advancement
+## Notes: Character Advancement UI prototype for WoW_Ascension_rework
+## Author: WoW_Ascension_rework
+## Version: 0.1.0
+## SavedVariables: WoWAscensionReworkCA_DB
+
+AscensionCA_Data.lua
+AscensionCA.xml
+AscensionCA.lua
